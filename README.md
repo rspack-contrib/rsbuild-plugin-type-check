@@ -7,6 +7,7 @@ An Rsbuild plugin to run TypeScript type checker in a separate process.
    <img src="https://img.shields.io/npm/v/@rsbuild/plugin-type-check?style=flat-square&colorA=564341&colorB=EDED91" alt="npm version" />
   </a>
   <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square&colorA=564341&colorB=EDED91" alt="license" />
+  <a href="https://npmcharts.com/compare/@rsbuild/plugin-type-check?minimal=true"><img src="https://img.shields.io/npm/dm/@rsbuild/plugin-type-check.svg?style=flat-square&colorA=564341&colorB=EDED91" alt="downloads" /></a>
 </p>
 
 ## Introduction
