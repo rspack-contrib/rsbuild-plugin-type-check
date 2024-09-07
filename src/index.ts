@@ -2,7 +2,8 @@ import fs from 'node:fs';
 import { createRequire } from 'node:module';
 import { type RsbuildPlugin, logger } from '@rsbuild/core';
 import deepmerge from 'deepmerge';
-import type ForkTSCheckerPlugin from 'fork-ts-checker-webpack-plugin';
+import ForkTSCheckerPlugin from 'fork-ts-checker-webpack-plugin';
+import json5 from 'json5';
 import { type ConfigChain, reduceConfigs } from 'reduce-configs';
 
 const require = createRequire(import.meta.url);
@@ -73,11 +74,6 @@ export const pluginTypeCheck = (
             return;
           }
 
-          const { default: ForkTsCheckerWebpackPlugin } = await import(
-            'fork-ts-checker-webpack-plugin'
-          );
-
-          const { default: json5 } = await import('json5');
           const { references } = json5.parse(
             fs.readFileSync(tsconfigPath, 'utf-8'),
           );
@@ -125,7 +121,7 @@ export const pluginTypeCheck = (
 
           chain
             .plugin(CHAIN_ID.PLUGIN.TS_CHECKER)
-            .use(ForkTsCheckerWebpackPlugin, [typeCheckerOptions]);
+            .use(ForkTSCheckerPlugin, [typeCheckerOptions]);
         },
       );
     },

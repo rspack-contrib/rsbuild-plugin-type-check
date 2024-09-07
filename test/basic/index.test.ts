@@ -2,16 +2,53 @@ import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { expect, test } from '@playwright/test';
 import { createRsbuild } from '@rsbuild/core';
-import { pluginTypeCheck } from '../../src';
-import { getRandomPort } from '../helper';
+import { pluginTypeCheck } from '@rsbuild/plugin-type-check';
+import { getRandomPort, proxyConsole } from '../helper';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-test('should render page as expected', async ({ page }) => {
+test('should throw error when exist type errors', async () => {
+  const { logs, restore } = proxyConsole();
+
   const rsbuild = await createRsbuild({
     cwd: __dirname,
     rsbuildConfig: {
       plugins: [pluginTypeCheck()],
+    },
+  });
+
+  await expect(rsbuild.build()).rejects.toThrowError('build failed!');
+
+  expect(
+    logs.find((log) => log.includes('File:') && log.includes('/src/index.ts')),
+  ).toBeTruthy();
+
+  expect(
+    logs.find((log) =>
+      log.includes(
+        `Argument of type 'string' is not assignable to parameter of type 'number'.`,
+      ),
+    ),
+  ).toBeTruthy();
+
+  restore();
+});
+
+test('should throw error when exist type errors in dev mode', async ({
+  page,
+}) => {
+  const { logs, restore } = proxyConsole();
+
+  const rsbuild = await createRsbuild({
+    cwd: __dirname,
+    rsbuildConfig: {
+      plugins: [
+        pluginTypeCheck({
+          forkTsCheckerOptions: {
+            async: false,
+          },
+        }),
+      ],
       server: {
         port: getRandomPort(),
       },
@@ -21,24 +58,72 @@ test('should render page as expected', async ({ page }) => {
   const { server, urls } = await rsbuild.startDevServer();
 
   await page.goto(urls[0]);
-  expect(await page.evaluate('window.test')).toBe(1);
 
+  expect(
+    logs.find((log) => log.includes('File:') && log.includes('/src/index.ts')),
+  ).toBeTruthy();
+
+  expect(
+    logs.find((log) =>
+      log.includes(
+        `Argument of type 'string' is not assignable to parameter of type 'number'.`,
+      ),
+    ),
+  ).toBeTruthy();
+
+  restore();
   await server.close();
 });
 
-test('should build succeed', async ({ page }) => {
+test('should not throw error when the file is excluded', async () => {
   const rsbuild = await createRsbuild({
     cwd: __dirname,
     rsbuildConfig: {
-      plugins: [pluginTypeCheck()],
+      plugins: [
+        pluginTypeCheck({
+          forkTsCheckerOptions: {
+            issue: {
+              exclude: [{ file: '**/index.ts' }],
+            },
+          },
+        }),
+      ],
     },
   });
 
-  await rsbuild.build();
-  const { server, urls } = await rsbuild.preview();
+  await expect(rsbuild.build()).resolves.toBeTruthy();
+});
 
-  await page.goto(urls[0]);
-  expect(await page.evaluate('window.test')).toBe(1);
+test('should not throw error when the file is excluded by code', async () => {
+  const rsbuild = await createRsbuild({
+    cwd: __dirname,
+    rsbuildConfig: {
+      plugins: [
+        pluginTypeCheck({
+          forkTsCheckerOptions: {
+            issue: {
+              exclude: [{ code: 'TS2345' }],
+            },
+          },
+        }),
+      ],
+    },
+  });
 
-  await server.close();
+  await expect(rsbuild.build()).resolves.toBeTruthy();
+});
+
+test('should not throw error when the type checker is not enabled', async () => {
+  const rsbuild = await createRsbuild({
+    cwd: __dirname,
+    rsbuildConfig: {
+      plugins: [
+        pluginTypeCheck({
+          enable: false,
+        }),
+      ],
+    },
+  });
+
+  await expect(rsbuild.build()).resolves.toBeTruthy();
 });
