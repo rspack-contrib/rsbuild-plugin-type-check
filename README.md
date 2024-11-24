@@ -12,9 +12,9 @@ An Rsbuild plugin to run TypeScript type checker in a separate process.
 
 ## Introduction
 
-This plugin internally integrates with [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
+This plugin internally integrates with [ts-checker-rspack-plugin](https://github.com/rspack-team/ts-checker-rspack-plugin).
 
-The type checking logic of `fork-ts-checker-webpack-plugin` is similar to the native `tsc` command of TypeScript. It automatically reads the configuration options from `tsconfig.json` and can also be modified via the configuration options provided by the Type Check plugin.
+The type checking logic of `ts-checker-rspack-plugin` is similar to the native `tsc` command of TypeScript. It automatically reads the configuration options from `tsconfig.json` and can also be modified via the configuration options provided by the Type Check plugin.
 
 The behavior of the plugin differs in the development and production builds:
 
@@ -98,7 +98,7 @@ pluginTypeCheck({
 
 ### forkTsCheckerOptions
 
-To modify the options of `fork-ts-checker-webpack-plugin`, please refer to [fork-ts-checker-webpack-plugin - README](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#readme) to learn about available options.
+To modify the options of `ts-checker-rspack-plugin`, please refer to [ts-checker-rspack-plugin - README](https://github.com/rspack-team/ts-checker-rspack-plugin#readme) to learn about available options.
 
 - **Type:** `Object | Function`
 - **Default:**
@@ -107,7 +107,7 @@ To modify the options of `fork-ts-checker-webpack-plugin`, please refer to [fork
 const defaultOptions = {
   typescript: {
     // set 'readonly' to avoid emitting tsbuildinfo,
-    // as the generated tsbuildinfo will break fork-ts-checker
+    // as the generated tsbuildinfo will break ts-checker-rspack-plugin
     mode: "readonly",
     // enable build when using project reference
     build: useReference,
@@ -193,7 +193,7 @@ pluginTypeCheck({
 ## Notes
 
 - If you have enabled `ts-loader` in your project and manually configured `compileOnly: false`, please disable the Type Check plugin to avoid duplicate type checking.
-- Some errors will be displayed as warnings in IDEs such as VS Code, but they will still be displayed as errors in the `fork-ts-checker-webpack-plugin` check. For details, please refer to: [Why are some errors reported as warnings?](https://code.visualstudio.com/docs/typescript/typescript-compiling#_why-are-some-errors-reported-as-warnings).
+- Some errors will be displayed as warnings in IDEs such as VS Code, but they will still be displayed as errors in the `ts-checker-rspack-plugin` check. For details, please refer to: [Why are some errors reported as warnings?](https://code.visualstudio.com/docs/typescript/typescript-compiling#_why-are-some-errors-reported-as-warnings).
 
 ## Performance Optimization
 
@@ -210,7 +210,7 @@ For example, properly configuring the `include` and `exclude` scopes in `tsconfi
 
 ## Vue Components
 
-`fork-ts-checker-webpack-plugin` does not support checking TypeScript code in `.vue` components. You can check for type issues in `.vue` files in the following ways:
+`ts-checker-rspack-plugin` does not support checking TypeScript code in `.vue` components. You can check for type issues in `.vue` files in the following ways:
 
 1. Install the [vue-tsc](https://github.com/vuejs/language-tools/tree/master/packages/tsc) package, which provides the ability to check types in `.vue` files.
 
