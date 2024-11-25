@@ -18,8 +18,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       ts-checker-rspack-plugin:
-        specifier: ^1.0.0
-        version: 1.0.0(@rspack/core@1.0.14(@swc/helpers@0.5.13))(typescript@5.6.3)
+        specifier: ^1.0.1
+        version: 1.0.1(@rspack/core@1.0.14(@swc/helpers@0.5.13))(typescript@5.6.3)
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.9.4
@@ -479,8 +479,8 @@ packages:
     peerDependencies:
       tslib: '2'
 
-  ts-checker-rspack-plugin@1.0.0:
-    resolution: {integrity: sha512-5xJ8Au/+zqblSBsKbfTqD+vPuULd/ADnJ5j2To0GeuBU72NGctl+X4tdyamhQoiCysTgRq1tWvr6GpLmmMHW3A==}
+  ts-checker-rspack-plugin@1.0.1:
+    resolution: {integrity: sha512-u+RgBXBr6RHCJ+nJtA3A6MG3oDt20faU8DryX+H3HPhhU+cCnrGY304vmwOsQLJmoMWDk7/xkkbz2j9pC0aX1Q==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       '@rspack/core': ^1.0.0
@@ -877,7 +877,7 @@ snapshots:
     dependencies:
       tslib: 2.6.2
 
-  ts-checker-rspack-plugin@1.0.0(@rspack/core@1.0.14(@swc/helpers@0.5.13))(typescript@5.6.3):
+  ts-checker-rspack-plugin@1.0.1(@rspack/core@1.0.14(@swc/helpers@0.5.13))(typescript@5.6.3):
     dependencies:
       '@babel/code-frame': 7.24.7
       '@rspack/core': 1.0.14(@swc/helpers@0.5.13)
