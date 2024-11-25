@@ -44,7 +44,7 @@ test('should throw error when exist type errors in dev mode', async ({
     rsbuildConfig: {
       plugins: [
         pluginTypeCheck({
-          forkTsCheckerOptions: {
+          tsCheckerOptions: {
             async: false,
           },
         }),
@@ -81,7 +81,7 @@ test('should not throw error when the file is excluded', async () => {
     rsbuildConfig: {
       plugins: [
         pluginTypeCheck({
-          forkTsCheckerOptions: {
+          tsCheckerOptions: {
             issue: {
               exclude: [{ file: '**/index.ts' }],
             },
@@ -100,7 +100,7 @@ test('should not throw error when the file is excluded by code', async () => {
     rsbuildConfig: {
       plugins: [
         pluginTypeCheck({
-          forkTsCheckerOptions: {
+          tsCheckerOptions: {
             issue: {
               exclude: [{ code: 'TS2345' }],
             },
