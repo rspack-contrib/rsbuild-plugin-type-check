@@ -2,14 +2,14 @@ import fs from 'node:fs';
 import { createRequire } from 'node:module';
 import { type RsbuildPlugin, logger } from '@rsbuild/core';
 import deepmerge from 'deepmerge';
-import ForkTSCheckerPlugin from 'fork-ts-checker-webpack-plugin';
 import json5 from 'json5';
 import { type ConfigChain, reduceConfigs } from 'reduce-configs';
+import { TsCheckerRspackPlugin } from 'ts-checker-rspack-plugin';
 
 const require = createRequire(import.meta.url);
 
 type ForkTsCheckerOptions = NonNullable<
-  ConstructorParameters<typeof ForkTSCheckerPlugin>[0]
+  ConstructorParameters<typeof TsCheckerRspackPlugin>[0]
 >;
 
 export type PluginTypeCheckerOptions = {
@@ -19,8 +19,8 @@ export type PluginTypeCheckerOptions = {
    */
   enable?: boolean;
   /**
-   * To modify the options of `fork-ts-checker-webpack-plugin`.
-   * @see https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#readme
+   * To modify the options of `ts-checker-rspack-plugin`.
+   * @see https://github.com/rspack-contrib/ts-checker-rspack-plugin#readme
    */
   forkTsCheckerOptions?: ConfigChain<ForkTsCheckerOptions>;
 };
@@ -83,7 +83,7 @@ export const pluginTypeCheck = (
           const defaultOptions: ForkTsCheckerOptions = {
             typescript: {
               // set 'readonly' to avoid emitting tsbuildinfo,
-              // as the generated tsbuildinfo will break fork-ts-checker
+              // as the generated tsbuildinfo will break ts-checker-rspack-plugin
               mode: 'readonly',
               // enable build when using project reference
               build: useReference,
@@ -121,7 +121,7 @@ export const pluginTypeCheck = (
 
           chain
             .plugin(CHAIN_ID.PLUGIN.TS_CHECKER)
-            .use(ForkTSCheckerPlugin, [typeCheckerOptions]);
+            .use(TsCheckerRspackPlugin, [typeCheckerOptions]);
         },
       );
     },
