@@ -43,8 +43,8 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@playwright/test": "^1.48.2",
-    "@rsbuild/core": "^1.0.19",
-    "@rslib/core": "^0.0.16",
+    "@rsbuild/core": "^1.1.5",
+    "@rslib/core": "^0.1.0",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.8.6",
     "fs-extra": "^11.2.0",
