@@ -96,7 +96,7 @@ pluginTypeCheck({
 });
 ```
 
-### forkTsCheckerOptions
+### tsCheckerOptions
 
 Modify the options of `ts-checker-rspack-plugin`, please refer to [ts-checker-rspack-plugin - README](https://github.com/rspack-contrib/ts-checker-rspack-plugin#readme) to learn about available options.
 
@@ -136,11 +136,11 @@ const defaultOptions = {
 
 #### Object Type
 
-When the value of `forkTsCheckerOptions` is an object, it will be deeply merged with the default configuration.
+When the value of `tsCheckerOptions` is an object, it will be deeply merged with the default configuration.
 
 ```ts
 pluginTypeCheck({
-  forkTsCheckerOptions: {
+  tsCheckerOptions: {
     issue: {
       exclude: [({ file = "" }) => /[\\/]some-folder[\\/]/.test(file)],
     },
@@ -150,11 +150,11 @@ pluginTypeCheck({
 
 #### Function Type
 
-When the value of `forkTsCheckerOptions` is a function, the default configuration will be passed as the first argument. You can directly modify the configuration object or return an object as the final configuration.
+When the value of `tsCheckerOptions` is a function, the default configuration will be passed as the first argument. You can directly modify the configuration object or return an object as the final configuration.
 
 ```ts
 pluginTypeCheck({
-  forkTsCheckerOptions(options) {
+  tsCheckerOptions(options) {
     options.async = false;
     return options;
   },
@@ -169,7 +169,7 @@ For example, the type mismatch error can be excluded using `code: 'TS2345'`:
 
 ```ts
 pluginTypeCheck({
-  forkTsCheckerOptions: {
+  tsCheckerOptions: {
     issue: {
       // Ignore "Argument of type 'string' is not assignable to parameter of type 'number'.ts(2345)"
       exclude: [{ code: "TS2345" }],
@@ -182,7 +182,7 @@ Or exclude files under `/some-folder/` using `file`:
 
 ```ts
 pluginTypeCheck({
-  forkTsCheckerOptions: {
+  tsCheckerOptions: {
     issue: {
       exclude: [({ file = "" }) => /[\\/]some-folder[\\/]/.test(file)],
     },

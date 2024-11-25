@@ -8,7 +8,7 @@ import { TsCheckerRspackPlugin } from 'ts-checker-rspack-plugin';
 
 const require = createRequire(import.meta.url);
 
-type ForkTsCheckerOptions = NonNullable<
+type TsCheckerOptions = NonNullable<
   ConstructorParameters<typeof TsCheckerRspackPlugin>[0]
 >;
 
@@ -22,7 +22,11 @@ export type PluginTypeCheckerOptions = {
    * To modify the options of `ts-checker-rspack-plugin`.
    * @see https://github.com/rspack-contrib/ts-checker-rspack-plugin#readme
    */
-  forkTsCheckerOptions?: ConfigChain<ForkTsCheckerOptions>;
+  tsCheckerOptions?: ConfigChain<TsCheckerOptions>;
+  /**
+   * @deprecated use `tsCheckerOptions` instead.
+   */
+  forkTsCheckerOptions?: ConfigChain<TsCheckerOptions>;
 };
 
 export const PLUGIN_TYPE_CHECK_NAME = 'rsbuild:type-check';
@@ -45,7 +49,16 @@ export const pluginTypeCheck = (
       api.modifyBundlerChain(
         async (chain, { isProd, environment, CHAIN_ID }) => {
           const { enable = true, forkTsCheckerOptions } = options;
+          let { tsCheckerOptions } = options;
           const { tsconfigPath } = environment;
+
+          // compatible with the legacy option
+          if (
+            tsCheckerOptions === undefined &&
+            forkTsCheckerOptions !== undefined
+          ) {
+            tsCheckerOptions = forkTsCheckerOptions;
+          }
 
           if (!tsconfigPath || enable === false) {
             return;
@@ -80,7 +93,7 @@ export const pluginTypeCheck = (
           const useReference =
             Array.isArray(references) && references.length > 0;
 
-          const defaultOptions: ForkTsCheckerOptions = {
+          const defaultOptions: TsCheckerOptions = {
             typescript: {
               // set 'readonly' to avoid emitting tsbuildinfo,
               // as the generated tsbuildinfo will break ts-checker-rspack-plugin
@@ -109,9 +122,9 @@ export const pluginTypeCheck = (
             },
           };
 
-          const typeCheckerOptions = reduceConfigs({
+          const mergedOptions = reduceConfigs({
             initial: defaultOptions,
-            config: forkTsCheckerOptions,
+            config: tsCheckerOptions,
             mergeFn: deepmerge,
           });
 
@@ -121,7 +134,7 @@ export const pluginTypeCheck = (
 
           chain
             .plugin(CHAIN_ID.PLUGIN.TS_CHECKER)
-            .use(TsCheckerRspackPlugin, [typeCheckerOptions]);
+            .use(TsCheckerRspackPlugin, [mergedOptions]);
         },
       );
     },
