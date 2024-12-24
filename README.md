@@ -190,6 +190,20 @@ pluginTypeCheck({
 });
 ```
 
+#### Disable type errors from the error overlay
+
+By default, type errors will be reported to Dev Server and displayed in the Rsbuild error overlay in development mode.
+
+If you don't want type errors to be displayed in the error overlay, you can disable it by setting `devServer: false`:
+
+```ts
+pluginTypeCheck({
+  tsCheckerOptions: {
+    async: true,
+    devServer: false,
+  },
+});
+```
 ## Notes
 
 - If you have enabled `ts-loader` in your project and manually configured `compileOnly: false`, please disable the Type Check plugin to avoid duplicate type checking.
