@@ -190,7 +190,7 @@ pluginTypeCheck({
 });
 ```
 
-#### Disable type errors in the error overlay
+#### Disable type errors from the error overlay
 
 By default, type errors will be reported to Dev Server and displayed in the Rsbuild error overlay in development mode.
 
