@@ -75,6 +75,39 @@ test('should throw error when exist type errors in dev mode', async ({
   await server.close();
 });
 
+test('should display error in overlay when exist type errors in dev mode', async ({
+  page,
+}) => {
+  const { restore } = proxyConsole();
+
+  const rsbuild = await createRsbuild({
+    cwd: __dirname,
+    rsbuildConfig: {
+      plugins: [pluginTypeCheck()],
+      server: {
+        port: getRandomPort(),
+      },
+    },
+  });
+
+  const { server, urls } = await rsbuild.startDevServer();
+
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  await page.goto(urls[0]);
+
+  const errorOverlay = page.locator('rsbuild-error-overlay');
+
+  expect(
+    (await errorOverlay.locator('.content').allInnerTexts()).find((txt) =>
+      txt.includes('TS2345: Argument of type'),
+    ),
+  ).toBeDefined();
+
+  restore();
+  await server.close();
+});
+
 test('should not throw error when the file is excluded', async () => {
   const rsbuild = await createRsbuild({
     cwd: __dirname,
