@@ -10,6 +10,8 @@ An Rsbuild plugin to run TypeScript type checker in a separate process.
   <a href="https://npmcharts.com/compare/@rsbuild/plugin-type-check?minimal=true"><img src="https://img.shields.io/npm/dm/@rsbuild/plugin-type-check.svg?style=flat-square&colorA=564341&colorB=EDED91" alt="downloads" /></a>
 </p>
 
+<img width="1472" alt="Screenshot 2025-02-14 at 23 08 37" src="https://github.com/user-attachments/assets/15d38419-34af-4a69-8841-8f9c608d8b68" />
+
 ## Introduction
 
 This plugin internally integrates with [ts-checker-rspack-plugin](https://github.com/rspack-contrib/ts-checker-rspack-plugin).
