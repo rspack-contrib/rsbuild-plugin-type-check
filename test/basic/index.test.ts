@@ -17,7 +17,7 @@ test('should throw error when exist type errors', async () => {
     },
   });
 
-  await expect(rsbuild.build()).rejects.toThrowError('build failed!');
+  await expect(rsbuild.build()).rejects.toThrowError('build failed');
 
   expect(
     logs.find((log) => log.includes('File:') && log.includes('/src/index.ts')),

@@ -14,7 +14,7 @@ test('should check multiple tsconfig.json as expected', async () => {
     rsbuildConfig: (await loadConfig({ cwd: __dirname })).content,
   });
 
-  await expect(rsbuild.build()).rejects.toThrowError('build failed!');
+  await expect(rsbuild.build()).rejects.toThrowError('build failed');
 
   expect(
     logs.find((log) =>
