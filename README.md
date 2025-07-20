@@ -226,28 +226,19 @@ For example, properly configuring the `include` and `exclude` scopes in `tsconfi
 
 ## Vue Components
 
-`ts-checker-rspack-plugin` does not support checking TypeScript code in `.vue` components. You can check for type issues in `.vue` files in the following ways:
+To enable typecheck in `.vue` files, use the custom TypeScript wrapper [`@esctn/vue-tsc-api`](https://www.npmjs.com/package/@esctn/vue-tsc-api). It works on top of [`vue-tsc`](https://www.npmjs.com/package/vue-tsc) — a popular CLI tool for type-checking Vue 3 code.
 
-1. Install the [vue-tsc](https://github.com/vuejs/language-tools/tree/master/packages/tsc) package, which provides the ability to check types in `.vue` files.
-
-<PackageManagerTabs command="add vue-tsc -D" />
-
-2. Add the `vue-tsc --noEmit` command to the `build` script in package.json:
-
-```diff title="package.json"
-{
-  "scripts": {
--   "build": "rsbuild build"
-+   "build": "vue-tsc --noEmit && rsbuild build"
-  }
-}
+```bash
+npm add @esctn/vue-tsc-api -D
 ```
-
-3. Since the production build uses `vue-tsc` for type checking, you can disable the Type Check plugin in production mode to avoid redundant checks.
 
 ```js
 pluginTypeCheck({
-  enable: process.env.NODE_ENV === "development",
+  tsCheckerOptions: {
+    typescript: {
+      typescriptPath: '@esctn/vue-tsc-api'
+    }
+  },
 });
 ```
 
