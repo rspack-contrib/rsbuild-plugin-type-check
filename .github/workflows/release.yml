@@ -26,8 +26,8 @@ jobs:
         with:
           node-version: 22
 
-      # Update npm to the latest version to enable OIDC
       # Use corepack to install pnpm
+      # Update npm to the latest version to enable OIDC
       - name: Setup Package Managers
         run: |
           npm install -g npm@latest
