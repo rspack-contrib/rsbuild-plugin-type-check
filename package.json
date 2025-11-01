@@ -46,7 +46,7 @@
     "@rsbuild/core": "^1.5.13",
     "@rslib/core": "^0.15.0",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^22.18.8",
+    "@types/node": "^24.9.2",
     "fs-extra": "^11.3.2",
     "nano-staged": "^0.8.0",
     "playwright": "^1.55.1",
