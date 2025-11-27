@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import { createRequire } from 'node:module';
-import { type RsbuildPlugin, logger } from '@rsbuild/core';
+import type { RsbuildPlugin } from '@rsbuild/core';
 import deepmerge from 'deepmerge';
 import json5 from 'json5';
 import { type ConfigChain, reduceConfigs } from 'reduce-configs';
@@ -38,6 +38,9 @@ export const pluginTypeCheck = (
     name: PLUGIN_TYPE_CHECK_NAME,
 
     setup(api) {
+      // `api.logger` is available since Rsbuild 1.4.0
+      const logger = api.logger ?? console;
+
       const NODE_MODULES_REGEX: RegExp = /[\\/]node_modules[\\/]/;
       const checkedTsconfig = new Map<
         // tsconfig path
