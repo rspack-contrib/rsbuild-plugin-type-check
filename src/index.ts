@@ -120,7 +120,11 @@ export const pluginTypeCheck = (
                 // we only want to display error messages
               },
               error(message: string) {
-                console.error(message.replace(/ERROR/g, 'Type Error'));
+                console.error(
+                  message
+                    .replace(/ERROR/g, 'Type Error')
+                    .replace(/WARNING/g, 'Type Warning'),
+                );
               },
             },
           };
