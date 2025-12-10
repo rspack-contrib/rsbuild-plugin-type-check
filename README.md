@@ -98,6 +98,22 @@ pluginTypeCheck({
 });
 ```
 
+### suppressEnabledInfo
+
+Whether to suppress the "Type checker is enabled. It may take some time." info message in production builds.
+
+- **Type:** `boolean`
+- **Default:** `false`
+- **Example:**
+
+Suppress the info message:
+
+```js
+pluginTypeCheck({
+  suppressEnabledInfo: true,
+});
+```
+
 ### tsCheckerOptions
 
 Modify the options of `ts-checker-rspack-plugin`, please refer to [ts-checker-rspack-plugin - README](https://github.com/rspack-contrib/ts-checker-rspack-plugin#readme) to learn about available options.

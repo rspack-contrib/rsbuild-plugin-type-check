@@ -19,6 +19,11 @@ export type PluginTypeCheckerOptions = {
    */
   enable?: boolean;
   /**
+   * Whether to suppress the "Type checker is enabled" info message.
+   * @default false
+   */
+  suppressEnabledInfo?: boolean;
+  /**
    * To modify the options of `ts-checker-rspack-plugin`.
    * @see https://github.com/rspack-contrib/ts-checker-rspack-plugin#readme
    */
@@ -51,7 +56,11 @@ export const pluginTypeCheck = (
 
       api.modifyBundlerChain(
         async (chain, { isProd, environment, CHAIN_ID }) => {
-          const { enable = true, forkTsCheckerOptions } = options;
+          const {
+            enable = true,
+            suppressEnabledInfo = false,
+            forkTsCheckerOptions,
+          } = options;
           let { tsCheckerOptions } = options;
           const { tsconfigPath } = environment;
 
@@ -135,7 +144,7 @@ export const pluginTypeCheck = (
             mergeFn: deepmerge,
           });
 
-          if (isProd) {
+          if (isProd && !suppressEnabledInfo) {
             logger.info('Type checker is enabled. It may take some time.');
           }
 
